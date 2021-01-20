@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        @Html.Raw(TempData["Message"])
+    </div>
+</div>
+
+<div class="text-center">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Isbn)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Language)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Author)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().LastUpdate)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Remarks)
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var book in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelBook => book.Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelBook => book.Title)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelBook => book.Isbn)
+                        </td>
+
+                        <td>
+                            @(book.Language != null ? book.Language : "---")
+                        </td>
+
+                        <td>
+                            @(book.Author != null ? book.Author : "---")
+                        </td>
+
+                        <td>
+                            @(book.Price?? (object) "---")
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelBook => book.LastUpdate)
+                        </td>
+
+                        <td>
+                            @(book.Remarks != null ? book.Remarks : "---")
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="8">
+                        No Any Book Could Be Found!
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+<a asp-controller="Home" asp-action="Save">Save new</a>
