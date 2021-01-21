@@ -143,5 +143,45 @@ namespace Web.API.Repository
             }
             return books;
         }
+
+        public Book Edit(long id)
+        {
+            Book book = null;
+            SqlDataReader reader = null;
+
+            try
+            {
+                using var sqlServerHelper = new SqlHelper(connectionString: Configuration.GetConnectionString(name: "BookStoreDB"));
+                reader = sqlServerHelper.ExecReaderSp(
+                    procName: "usp_edit_books", paramNames: new[] { "@id" }, paramValues: new object[] { id }
+                );
+
+                if (reader.Read())
+                {
+                    book = new Book
+                    {
+                        Id = reader.GetInt64(0),
+                        Title = reader.GetString(1),
+                        Isbn = reader.GetInt32(2),
+                        Language = !reader.IsDBNull(3) ? reader.GetString(3) : null,
+                        Author = !reader.IsDBNull(4) ? reader.GetString(4) : null,
+                        Price = !reader.IsDBNull(5) ? reader.GetDecimal(5) : null,
+                        Remarks = !reader.IsDBNull(6) ? reader.GetString(6) : null
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+            return book;
+        }
     }
 }

@@ -34,6 +34,18 @@ namespace Web.API.Controllers
         }
 
 
+        [HttpGet(template: "edit/{id:long}")]
+        public ActionResult<Book> Edit([FromRoute] long id)
+        {
+            var book = _IbookRepo.Edit(id: id);
+
+            if (book != null)
+            {
+                return book;
+            }
+            return NotFound();
+        }
+
         [HttpPut(template: "update")]
         public ActionResult Update([FromBody] Book book)
         {

@@ -9,6 +9,8 @@ namespace Web.API.Repository
         int Update(Book book);
         int Delete(long id);
 
+        Book Edit(long id);
+
         IEnumerable<Book> GetBooks();      
     }
 }

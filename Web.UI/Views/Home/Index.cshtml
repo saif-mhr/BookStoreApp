@@ -13,10 +13,7 @@
     <table class="table table-hover table-responsive">
         <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
-                </th>
-
+               
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
                 </th>
@@ -44,6 +41,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().Remarks)
                 </th>
+
+                <th>
+                    Options
+                </th>
             </tr>
         </thead>
 
@@ -53,10 +54,7 @@
                 foreach (var book in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelBook => book.Id)
-                        </td>
-
+                       
                         <td>
                             @Html.DisplayFor(modelBook => book.Title)
                         </td>
@@ -83,6 +81,10 @@
 
                         <td>
                             @(book.Remarks != null ? book.Remarks : "---")
+                        </td>
+
+                        <td>
+                            <a asp-controller="Home" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary btn-sm" role="button">Edit</a>
                         </td>
                     </tr>
                 }

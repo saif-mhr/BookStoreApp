@@ -52,6 +52,25 @@ namespace Web.UI.Services
             }
             return jsonPayload;
         }
+
+        public async Task<Book> EditAsync(long id)
+        {
+            Book book = null;
+            try
+            {
+                using var response = await _httpClient.GetAsync(requestUri: $"edit/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    book = await response.Content.ReadFromJsonAsync<Book>();
+                }
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+            return book;
+        }
     }
 
     class InvalidHttpRespMsg

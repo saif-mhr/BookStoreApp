@@ -10,6 +10,7 @@ using Web.UI.Services;
 
 namespace Web.UI.Controllers
 {
+   // [Route(template: "[controller]/[action]")]
     public class HomeController : Controller
     {
         private readonly IBookService _IbookService;
@@ -18,9 +19,17 @@ namespace Web.UI.Controllers
             _IbookService = bookService;
         }
 
+        [HttpGet]
         public async Task<ViewResult> Index()
         {
             return View(model: await _IbookService.GetBooksAsync());
+        }
+
+
+        [HttpGet]
+        public async Task<ViewResult> Edit(long id)
+        {
+            return View(model: await _IbookService.EditAsync(id));
         }
 
         [HttpGet]

@@ -9,7 +9,10 @@ namespace Web.UI.Services
     public interface IBookService
     {
         Task<IEnumerable<Book>> GetBooksAsync();
+
         Task<string> SaveAsync(Book book);
+
+        Task<Book> EditAsync(long id);
 
         //Task<Book> InsertBookAsync();
     }
