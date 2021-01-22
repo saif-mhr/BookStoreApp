@@ -58,6 +58,41 @@ namespace Web.UI.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!(await _IbookService.UpdateAsync(book: book)).Contains(value: "Not Found"))
+                {
+                    TempData[key: "Message"] = $@"<div class=""alert alert-success alert-dismissable fade show shadow-sm""><button type=""button"" class=""close"" data-dismiss=""alert"">&times;</button>Book updated successfully.</div>";
+                }
+                else
+                {
+                    TempData[key: "Message"] = $@"<div class=""alert alert-danger alert-dismissable fade show shadow-sm""><button type=""button"" class=""close"" data-dismiss=""alert"">&times;</button>Book could not updated.</div>";
+                }
+                return RedirectToAction(actionName: "Index");
+            }
+            return View(viewName: "Edit", model: book);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<RedirectToActionResult> Delete(long id)
+        {
+            if (!(await _IbookService.DeleteAsync(id: id)).Contains(value: "Not Found"))
+            {
+                TempData[key: "Message"] = $@"<div class=""alert alert-success alert-dismissable fade show shadow-sm""><button type=""button"" class=""close"" data-dismiss=""alert"">&times;</button>Book Deleted successfully.</div>";
+            }
+            else
+            {
+                TempData[key: "Message"] = $@"<div class=""alert alert-danger alert-dismissable fade show shadow-sm""><button type=""button"" class=""close"" data-dismiss=""alert"">&times;</button>Book could not be Deleted.</div>";
+            }
+            return RedirectToAction(actionName: "Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

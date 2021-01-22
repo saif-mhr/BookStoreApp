@@ -71,6 +71,42 @@ namespace Web.UI.Services
             }
             return book;
         }
+
+        public async Task<string> UpdateAsync(Book book)
+        {
+            var jsonPayload = string.Empty;
+            try
+            {
+                using var response = await _httpClient.PutAsJsonAsync(requestUri: "update", value: book);
+
+                jsonPayload = !response.IsSuccessStatusCode
+                    ? (await response.Content.ReadFromJsonAsync<InvalidHttpRespMsg>()).Title
+                    : await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+            return jsonPayload;
+        }
+
+        public async Task<string> DeleteAsync(long id)
+        {
+            var jsonPayload = string.Empty;
+            try
+            {
+                using var response = await _httpClient.DeleteAsync(requestUri: $"delete/{id}");
+
+                jsonPayload = !response.IsSuccessStatusCode
+                    ? (await response.Content.ReadFromJsonAsync<InvalidHttpRespMsg>()).Title
+                    : await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+            return jsonPayload;
+        }
     }
 
     class InvalidHttpRespMsg

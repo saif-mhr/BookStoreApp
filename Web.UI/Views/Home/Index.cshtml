@@ -9,11 +9,18 @@
     </div>
 </div>
 
-<div class="text-center">
+<div class="text-center col-lg-12 col-xl-12 col-md-12 col-sm-12">
     <table class="table table-hover table-responsive">
         <thead>
             <tr>
-               
+                <th>
+                    <input type="checkbox" class="checkbox" id="select_all" />
+                </th>
+
+                <th>
+                    S.NO
+                </th>
+
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
                 </th>
@@ -51,10 +58,18 @@
         <tbody>
             @if (Model.Any())
             {
+                var sNo = 1;
                 foreach (var book in Model)
                 {
                     <tr>
-                       
+                        <td>
+                            <input type="checkbox" class="checkbox" />
+                        </td>
+
+                        <td>
+                            @(sNo++)
+                        </td>
+
                         <td>
                             @Html.DisplayFor(modelBook => book.Title)
                         </td>
@@ -86,6 +101,13 @@
                         <td>
                             <a asp-controller="Home" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary btn-sm" role="button">Edit</a>
                         </td>
+                       
+                        <td>
+                            <form asp-action="Delete" asp-controller="Home" method="post">
+                                <input type="hidden" name="id" id="id" value="@book.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 }
             }
@@ -98,9 +120,36 @@
                 </tr>
             }
 
-
         </tbody>
-
     </table>
 </div>
-<a asp-controller="Home" asp-action="Save">Save new</a>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function () {
+                return confirm('Are you sure to Delete this Entry?') ? true : false;
+            });
+
+            $('#select_all').on('click', function () {
+                if (this.checked) {
+                    $('.checkbox').each(function () {
+                        this.checked = true;
+                    });
+                } else {
+                    $('.checkbox').each(function () {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            $('.checkbox').on('click', function () {
+                if ($('.checkbox:checked').length == $('.checkbox').length) {
+                    $('#select_all').prop('checked', true);
+                } else {
+                    $('#select_all').prop('checked', false);
+                }
+            });
+        });
+    </script>
+}
