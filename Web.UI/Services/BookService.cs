@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Web.UI.Models;
-
+using App.Core.Util.Logger;
 
 namespace Web.UI.Services
 {
@@ -27,9 +27,9 @@ namespace Web.UI.Services
             {
                 books = await _httpClient.GetFromJsonAsync<Book[]>(requestUri: "getbooks");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               //ignore
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
 
             return books;
@@ -40,15 +40,16 @@ namespace Web.UI.Services
             var jsonPayload = string.Empty;
             try
             {
-                using var response = await _httpClient.PostAsJsonAsync(requestUri: "save", value: book);
+                using var response = await _httpClient.PostAsJsonAsync(requestUri: "Save", value: book);
+ 
 
                 jsonPayload = !response.IsSuccessStatusCode
                     ? (await response.Content.ReadFromJsonAsync<InvalidHttpRespMsg>()).Title
                     : await response.Content.ReadAsStringAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               //ignore
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             return jsonPayload;
         }
@@ -65,9 +66,9 @@ namespace Web.UI.Services
                     book = await response.Content.ReadFromJsonAsync<Book>();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignore
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             return book;
         }
@@ -83,9 +84,9 @@ namespace Web.UI.Services
                     ? (await response.Content.ReadFromJsonAsync<InvalidHttpRespMsg>()).Title
                     : await response.Content.ReadAsStringAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignore
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             return jsonPayload;
         }
@@ -101,9 +102,9 @@ namespace Web.UI.Services
                     ? (await response.Content.ReadFromJsonAsync<InvalidHttpRespMsg>()).Title
                     : await response.Content.ReadAsStringAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ignore
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             return jsonPayload;
         }

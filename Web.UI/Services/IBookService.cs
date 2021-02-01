@@ -16,6 +16,6 @@ namespace Web.UI.Services
 
         Task<string> DeleteAsync(long id);
 
-        //Task<Book> InsertBookAsync();
+       
     }
 }

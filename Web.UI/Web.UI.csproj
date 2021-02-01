@@ -8,4 +8,8 @@
     <ProjectReference Include="..\App.Core.Util\App.Core.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Errors\" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using App.Core.Util.Adonet;
 using Web.API.Models;
 using System.Data.SqlClient;
+using App.Core.Util.Logger;
+
 namespace Web.API.Repository
 {
     public class BookRepo : IBookRepo
@@ -45,9 +47,9 @@ namespace Web.API.Repository
                     }
                );
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
 
             return affectedRows;
@@ -58,11 +60,18 @@ namespace Web.API.Repository
             try
             {
                 using var sqlServerHelper = new SqlHelper(connectionString: Configuration.GetConnectionString(name: "BookStoreDB"));
-                affectedRows = sqlServerHelper.ExecNonQuerySp(procName: "usp_delete_book", paramNames: new string[] { "@id" }, paramValues: new object[] { id });
+                affectedRows = sqlServerHelper.ExecNonQuerySp(procName: "usp_delete_book", paramNames: new string[]
+                { 
+                    "@id" 
+                }, 
+                paramValues: new object[]
+                {
+                    id
+                });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
 
             return affectedRows;
@@ -97,9 +106,9 @@ namespace Web.API.Repository
                     }
                );
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
 
             return affectedRows;
@@ -130,9 +139,9 @@ namespace Web.API.Repository
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             finally
             {
@@ -170,9 +179,9 @@ namespace Web.API.Repository
                     };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LogHelper.WriteLog(exception: ex, path: Configuration[key: "Exceptions:FilePath"]);
             }
             finally
             {

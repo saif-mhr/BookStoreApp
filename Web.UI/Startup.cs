@@ -42,7 +42,7 @@ namespace Web.UI
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/ExceptionErr/Error");
             }
             app.UseStaticFiles();
 
